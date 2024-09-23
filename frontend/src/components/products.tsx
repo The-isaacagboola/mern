@@ -19,7 +19,7 @@ type ProductProps = {
 //max-h-[32rem] max-w-[30rem]
 function Product({ details }: ProductProps) {
   return (
-    <div className="grid grid-rows-[261px_140px] text-left overflow-hidden capitalize rounded-lg bg-light">
+    <div className="grid grid-rows-[261px_150px] text-left overflow-hidden capitalize rounded-lg bg-[#6daab670] dark:bg-light hover:scale-[102%] transition-all duration-300 cursor-pointer">
       <img
         className="object-cover h-full w-full"
         src={details.image}
@@ -29,12 +29,17 @@ function Product({ details }: ProductProps) {
       <div className="ml-3 mb-3">
         <div className="mt-5 ">
           <p className="text-xl mb-2">{details.name}</p>
-          <p className="text-xl">${details.price.toFixed(2)}</p>
+          <p className="text-xl">${details.price.toLocaleString()}</p>
         </div>
 
         <div className="flex gap-3 mt-2 items-center">
-          <FiEdit className="cursor-pointer" size={25} />
-          <MdDelete className="cursor-pointer" size={25} />
+          <div className="p-2 dark:bg-lighest rounded-md cursor-pointer text-[#0000007a] hover:text-black">
+            <FiEdit size={25} />
+          </div>
+
+          <div className="p-2 dark:bg-lighest rounded-md cursor-pointer text-[#ea2c2c8f] hover:text-[#ea2c2cf0]">
+            <MdDelete size={26} />
+          </div>
         </div>
       </div>
     </div>

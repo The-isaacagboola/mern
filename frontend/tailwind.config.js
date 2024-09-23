@@ -8,11 +8,12 @@ export default {
         inter: ["Inter", "system-ui"],
       },
       colors: {
-        deep: "#0c0f6e",
+        deep: "#030426f2",
         light: "#272953",
-        lighest: "#babefd",
+        lightest: "#ddddddc4",
       },
     },
   },
   plugins: [],
+  darkMode: "class",
 };
