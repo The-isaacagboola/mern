@@ -7,6 +7,7 @@ type NavProps = {
   darkMode: boolean;
   toggleColorMode: () => void;
 };
+
 export default function Nav({ darkMode, toggleColorMode }: NavProps) {
   return (
     <nav className="flex justify-between mb-20 lg:min-w-[750px]">

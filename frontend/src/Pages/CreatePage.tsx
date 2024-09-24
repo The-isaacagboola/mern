@@ -3,7 +3,7 @@ import SuccessfulPop from "../components/successful-pop";
 
 type ProductType = {
   name: string;
-  price: number;
+  price: number | "";
   image: string;
 };
 type ProductAction = {
@@ -18,12 +18,28 @@ export default function CreatePage() {
 
   const [newProduct, dispatchProduct] = useReducer(productReducer, {
     name: "",
-    price: 0,
+    price: "",
     image: "",
   });
 
   function productReducer(state: ProductType, action: ProductAction) {
     return { ...state, [action.type]: action.payload };
+  }
+
+  function showToast(state: "success" | "failure") {
+    switch (state) {
+      case "success":
+        setShowFailure(false);
+        setShowSuccess(true);
+        setVisible(true);
+
+        break;
+      case "failure":
+        setShowSuccess(false);
+        setShowFailure(true);
+        setVisible(true);
+        break;
+    }
   }
 
   async function AddNewProduct(e: React.MouseEvent<HTMLButtonElement>) {
@@ -36,8 +52,13 @@ export default function CreatePage() {
         },
         body: JSON.stringify(newProduct),
       });
-      return await product.json();
+      const json = await product.json();
+      if (json.success) {
+        showToast("success");
+      } else showToast("failure");
+      return json.data;
     } catch (error) {
+      showToast("failure");
       console.error("Error Ocurred while Creating New Product", error);
     }
   }
@@ -57,10 +78,18 @@ export default function CreatePage() {
         visible={visible}
         showSuccess={showSuccess}
         showFailure={showFailure}
+        title={
+          showSuccess
+            ? "Product Added Successfully"
+            : showFailure
+            ? "Error Occured. Please try again"
+            : null
+        }
       />
 
       <form className="flex flex-col rounded-lg gap-4 p-5 bg-[#dddddd14]">
         <input
+          value={newProduct.name}
           onChange={(e) => {
             dispatchProduct({
               type: "name",
@@ -72,10 +101,11 @@ export default function CreatePage() {
         />
 
         <input
+          value={newProduct.price}
           onChange={(e) => {
             dispatchProduct({
               type: "price",
-              payload: +e.target.value,
+              payload: e.target.value,
             });
           }}
           type="text"
@@ -83,6 +113,7 @@ export default function CreatePage() {
         />
 
         <input
+          value={newProduct.image}
           onChange={(e) => {
             dispatchProduct({
               type: "image",
@@ -102,14 +133,14 @@ export default function CreatePage() {
         </button>
       </form>
 
-      <button
+      {/* <button
         onClick={() => {
           setVisible((prev) => !prev);
         }}
       >
         {" "}
         Show Button
-      </button>
+      </button> */}
     </div>
   );
 }
