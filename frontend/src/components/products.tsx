@@ -117,3 +117,6 @@ export default function CurrentProducts() {
     </div>
   );
 }
+
+// TODO
+// Create a custom modal when user clicks delete to ask if sure

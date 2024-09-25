@@ -18,6 +18,7 @@ export default function EditProductModal({
 }: ModalProps) {
   const [updatedDetails, setUpdatedDetails] = useState(productDetails);
   const [success, setSuccess] = useState(false);
+  const [updateError, setUpdateError] = useState(false);
 
   async function UpdateProduct() {
     try {
@@ -31,14 +32,16 @@ export default function EditProductModal({
       const json = await res.json();
       console.log(json);
       if (!json.success) {
-        setSuccess(true);
-        setOpenModal(false);
         console.error("Error updating product");
       } else {
+        setOpenModal(false);
+        setSuccess(true);
+        window.location.reload();
         return json;
       }
     } catch (error) {
-      console.error("Product Update Failed, Please try Again", error.message);
+      setUpdateError(true);
+      console.error("Product Update Failed, Please try Again", error);
     }
   }
 
@@ -88,13 +91,21 @@ export default function EditProductModal({
           />
         </div>
 
-        {success ? (
+        {success && (
           <SuccessfulPop
             visible={true}
             showSuccess={true}
             title={"Product Updated Successfully"}
           />
-        ) : null}
+        )}
+
+        {updateError && (
+          <SuccessfulPop
+            visible={true}
+            showFailure={true}
+            title={"Error Updating Product"}
+          />
+        )}
         <div className="flex justify-end w-full mt-5">
           <button className="mr-3 update-btns" onClick={UpdateProduct}>
             Update
@@ -103,6 +114,16 @@ export default function EditProductModal({
             Cancel
           </button>
         </div>
+
+        <button
+          onClick={() => {
+            setOpenModal(true);
+            console.log(openModal);
+          }}
+        >
+          {" "}
+          POP SUCCESS
+        </button>
       </div>
     </div>,
     document.body
