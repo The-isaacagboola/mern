@@ -14,9 +14,7 @@ function App() {
 
   return (
     <div className={`${darkMode ? "dark" : ""}`}>
-      <div
-        className={`font-poppins flex items-center justify-center bg-[#e2f5fb] dark:bg-deep dark:text-white text-black  h-full min-h-[100vh]`}
-      >
+      <div className="font-poppins flex items-center justify-center bg-[#e2f5fb] dark:bg-deep dark:text-white text-black  h-full min-h-[100vh]">
         <div className="max-w-[1200px] mt-8">
           <Nav darkMode={darkMode} toggleColorMode={toggleColorMode} />
           <Routes>
